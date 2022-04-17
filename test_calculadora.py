@@ -35,8 +35,34 @@ class TestCalculadora:
         """
         testar post SOMA
         """
-        respSoma = post(self.url + "/calculadora",
+        resp_soma = post(self.url + "/calculadora",
                     json={"valor1": 11, "valor2": 6, "operacao": "+", "tipo": "POST"})
-        message = loads(respSoma.text)
-        resposta_esperada = 17
-        assert message == resposta_esperada
+        message_soma = loads(resp_soma.text)
+        resposta_esperada_soma = 17
+
+        resp_subtracao = post(self.url + "/calculadora",
+                    json={"valor1": 11, "valor2": 6, "operacao": "-", "tipo": "POST"})
+        message_subtracao = loads(resp_subtracao.text)
+        resposta_esperada_subtracao = 5
+
+        resp_mutiplicacao = post(self.url + "/calculadora",
+                    json={"valor1": 11, "valor2": 6, "operacao": "*", "tipo": "POST"})
+        message_mutiplicacao = loads(resp_mutiplicacao.text)
+        resposta_esperada_mutiplicacao = 66
+
+        resp_divisao = post(self.url + "/calculadora",
+                    json={"valor1": 60, "valor2": 6, "operacao": "/", "tipo": "POST"})
+        message_divisao = loads(resp_divisao.text)
+        resposta_esperada_divisao = 10
+
+        resp_invalido = post(self.url + "/calculadora",
+                    json={"valor1": 60, "valor2": 6, "operacao": "a", "tipo": "POST"})
+        message_invalido = loads(resp_invalido.text)
+        resposta_esperada_invalido = "OPERADOR INVÁLIDO, ENVIE UM DOS SEGUINTE OPERADORES + - * /"
+
+
+        assert message_soma == resposta_esperada_soma
+        assert message_subtracao == resposta_esperada_subtracao
+        assert message_mutiplicacao == resposta_esperada_mutiplicacao
+        assert message_divisao  == resposta_esperada_divisao
+        assert message_invalido  == resposta_esperada_invalido
